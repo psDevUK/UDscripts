@@ -19,6 +19,6 @@ import useDashboardEvent from "./Hooks/useDashboardEvent";
     };
 
 <BeautyStars { ...attributes } value= { value } onChange= { onChange } />;
-}
+};
 
 export default UDFeedBack
