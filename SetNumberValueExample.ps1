@@ -36,7 +36,7 @@ $dashboard = New-UDDashboard -Title "New Component" -Theme $theme -Content {
                 }
             }
             New-UDButton -Text "ClearMe" -OnClick {
-                #Clear-UDElement -Id "num2"
+                Clear-UDElement -Id "num2"
             }
 
         } -AutoRefresh
