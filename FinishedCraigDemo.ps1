@@ -4,7 +4,7 @@ Import-Module -Name UniversalDashboard.Community -RequiredVersion 2.8.1
 ##For testing purposes when building this page I will be reloading I want the most recent version showing so I run
 Get-UDDashboard | Stop-UDDashboard
 ##Get ready to build dashboard by defining the port to run this on locally
-Start-UDDashboard -Port 10006 -Dashboard (
+Start-UDDashboard -Port 10005 -Dashboard (
     ###Now lets give the dashboard a title
     New-UDDashboard -Title "Demo For Craig" -Content {
         ## Going to try and mimic the layout of your dashboard
@@ -47,12 +47,20 @@ Start-UDDashboard -Port 10006 -Dashboard (
                     #lets align this with the text in the olther column so it looks aligned
                     New-UDHtml -Markup "<p><br></p>"
                     #I always give components I want to interact with a ID name so you can use get-udelement to reference the attribute value of it
-                    New-UDSwitch -Id "Switch" -OnText "Fix Problems" -OffText "Dont Fix" -OnChange {
-                        $EventData
-                        $Session:Fixit = $EventData
+
+                    New-UDButton -Id "Switch" -Text "Fix Duplicates" -OnClick {
+                        $Session:Fixit = 'True'
                         #Remember to sync the changes with other components on the page that you need to pass this session variable to
-                        @('TableColumn', 'TableADFix', 'TableAD', 'TableEH', 'TableEHFix', 'TableUnfix') | Sync-UDElement
+                        @('TableColumn', 'TableAD', 'TableADFix', 'TableEH', 'TableEHFix', 'TableUnfix') | Sync-UDElement
+
                     }
+                    New-UDButton -Text "UnFix" -OnClick {
+                        $Session:Fixit = 'False'
+                        #Remember to sync the changes with other components on the page that you need to pass this session variable to
+                        @('TableColumn', 'TableAD', 'TableADFix', 'TableEH', 'TableEHFix', 'TableUnfix') | Sync-UDElement
+
+                    }
+
                 }
             } -RefreshInterval 4
             New-UDColumn -Id "TableColumn" -size 12 -Endpoint {
