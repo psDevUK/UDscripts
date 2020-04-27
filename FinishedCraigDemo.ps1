@@ -51,13 +51,13 @@ Start-UDDashboard -Port 10005 -Dashboard (
                     New-UDButton -Id "Switch" -Text "Fix Duplicates" -OnClick {
                         $Session:Fixit = 'True'
                         #Remember to sync the changes with other components on the page that you need to pass this session variable to
-                        @('TableColumn', 'TableAD', 'TableADFix', 'TableEH', 'TableEHFix', 'TableUnfix') | Sync-UDElement
+                        @('TableColumn', 'TableAD', 'TableADFix', 'TableEH', 'TableEHFix') | Sync-UDElement
 
                     }
                     New-UDButton -Text "UnFix" -OnClick {
                         $Session:Fixit = 'False'
                         #Remember to sync the changes with other components on the page that you need to pass this session variable to
-                        @('TableColumn', 'TableAD', 'TableADFix', 'TableEH', 'TableEHFix', 'TableUnfix') | Sync-UDElement
+                        @('TableColumn', 'TableADFix', 'TableEH', 'TableEHFix') | Sync-UDElement
 
                     }
 
@@ -67,33 +67,7 @@ Start-UDDashboard -Port 10005 -Dashboard (
                 #So this is where we make the result section appear or disappear depending on the criteria of the Session variables held
                 #This first section will verify that option 1 was selected and the switch to fix it has not been applied
                 #Notice how you can call the refresh on the table endpoint
-                If ($Session:Selected -eq 1 -and $Session:Fixit -match 'False') {
-                    New-UDTable -Id "TableUnfix" -Title "Process Ids" -Header @("Name", "Process Id", "Icon") -Endpoint {
 
-                        $Data = @(get-process | ? { $_.ProcessName -match '^A|^B|^C|^D' } | Select name, ID)
-                        $UniqueData = @($Data | sort -Unique Name | select -ExpandProperty ID)
-                        $Data | ForEach-Object {
-                            $Current = $_ | Select -ExpandProperty ID
-                            if ( $Current -in $UniqueData) {
-                                [PSCustomObject]@{
-                                    Name = $_.Name
-                                    ID   = $_.ID
-                                    Icon = New-UDIcon -Icon check_square -Color 'Green'
-                                }
-                            }
-                            else {
-                                [PSCustomObject]@{
-                                    Name = $_.Name
-                                    ID   = $_.ID
-                                    Icon = New-UDIcon -Icon times_rectangle -Color 'Red'
-                                }
-                            }
-                        } | Out-UDTableData -Property @("name", "id", "Icon")
-                        $Session:BadCount = ($Data).Count - ($UniqueData).Count
-                        @('Topcolumn', 'TextRefresh') | Sync-UDElement
-                    } -RefreshInterval 4
-                }
-                ##adding this as i obviously couldnt think of a good enough solution in my if statement...thinking a button would be better
                 If ($Session:Selected -eq 1 -and $Session:Fixit -ne 'True') {
                     New-UDTable -Id "TableUnfix" -Title "Process Ids" -Header @("Name", "Process Id", "Icon") -Endpoint {
 
