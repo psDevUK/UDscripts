@@ -15,8 +15,7 @@ function Get-CVE
     Param
     (
         # Param1 help description
-        [Parameter(Mandatory=$true,
-                   Position=0)]
+        [Parameter(Mandatory=$true,ValueFromPipeline=$true,Position=0)]
         [string[]]$Software, 
          [Parameter(Position=1)]       
         [string]$RowTag = "srrowns" ,
