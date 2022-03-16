@@ -40,8 +40,8 @@ Write-Verbose "Sorry no CVE threats found for the software $($Software)";break
 } else {
 Write-Verbose "There has been $($CVEnumber) threat(s) found for $($Software)"
 Write-Verbose "Processing each CVE threat found"
-$TR = $page.ParsedHtml.getElementsByTagName('tr') | ? {$_.Classname -eq"srrowns"}
-$TD = $page.ParsedHtml.getElementsByTagName('td') | ? {$_.Classname -eq "cvesummarylong"}
+$TR = $page.ParsedHtml.getElementsByTagName('tr') | ? {$_.Classname -eq $RowTag}
+$TD = $page.ParsedHtml.getElementsByTagName('td') | ? {$_.Classname -eq $CVETag}
 $HashOutput=[ordered]@{}
 for($i=0; $i -lt $TR.count; $i++){
 $HashOutput[$TR[$i].innertext] = $TD[$i].innertext }
