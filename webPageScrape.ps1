@@ -52,7 +52,7 @@ Write-Verbose "CSV file now being created and stored here $($env:TEMP)"
     End
     {
     $End = Get-Date
-    Write-Verbose "$($myinvocation.mycommand) is starting now $((Get-Date).ToString('yyyy-MM-dd HH:MM:ss'))"
+    Write-Verbose "$($myinvocation.mycommand) has now ended $((Get-Date).ToString('yyyy-MM-dd HH:MM:ss'))"
     Write-Verbose "This script took $((New-TimeSpan -Start $Start -End $End).TotalSeconds) seconds to complete"
 
     }
