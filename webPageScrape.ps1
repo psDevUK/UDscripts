@@ -31,7 +31,7 @@ function Get-CVE
     Process
     {
 $URL = "https://www.cvedetails.com/vulnerability-search.php?f=1&vendor=&product=$($Software)%25&cveid=&msid=&bidno=&cweid=&cvssscoremin=&cvssscoremax=&psy=&psm=&pey=&pem=&usy=&usm=&uey=&uem="
-$Webpage = Invoke-WebRequest -Uri $URL
+$page = Invoke-WebRequest -Uri $URL
 Write-Verbose "Calculating the number of CVE threats found for $($Software)"
 [int]$CVEnumber = ($page.ParsedHtml.getElementsByTagName("td") | ? {$_.Classname -eq $CVETag}).count
 if ($CVEnumber -lt 1){
